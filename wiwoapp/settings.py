@@ -41,9 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Added by Festus Iyere
     'rest_framework',
-    'users',
-    'products',
-    'orders',
+    # 'users',
+    # 'products',
+    # 'orders',
 ]
 
 MIDDLEWARE = [

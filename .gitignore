@@ -1,8 +1,7 @@
-/.idea
-/.venv
-/.ruff_cache
+**/.idea
+**/.venv
+**/.ruff_cache
 *.pyc
-__pycache__
 *.pyo
 *.pyd
 .Python
@@ -17,3 +16,5 @@ db.sqlite3
 *.log
 *.pot
 *.mo
+**/__pycache__/
+db.sqlite3
