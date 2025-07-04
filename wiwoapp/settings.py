@@ -41,9 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Added by Festus Iyere
     'rest_framework',
-    # 'users',
-    # 'products',
-    # 'orders',
+    'users',
+    'products',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -129,4 +129,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Added by Festus Iyere
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'

@@ -24,7 +24,7 @@ v1_api_prefix = 'api/v1'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(f'{v1_api_prefix}/users/', include('users.urls')),
     # path(f'{v1_api_prefix}/products/', include('products.urls')),
-    # path(f'{v1_api_prefix}/users/', include('users.urls')),
     # path(f'{v1_api_prefix}/orders/', include('orders.urls')),
 ]
