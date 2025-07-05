@@ -13,8 +13,10 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     id = models.BigAutoField(primary_key=True)
     is_active = models.BooleanField(default=True)
-    default_image = models.ForeignKey('ProductImage', on_delete=models.SET_NULL, null=True, blank=True, related_name='default_for_product')
+    is_deleted = models.BooleanField(default=True)
+    default_image = models.CharField(max_length=1024, null=True, blank=True)
     images = models.ManyToManyField('ProductImage', blank=True)
+    categories = models.ManyToManyField('Category', blank=True)
 
 
     def save(self, *args, **kwargs):
@@ -25,17 +27,33 @@ class Product(models.Model):
     def delete(self, *args, **kwargs):
         """Override delete method to set is_active to False instead of deleting."""
         self.is_active = False
+        self.is_deleted = False
         self.name = f"{self.name} (deleted)"
-        self.save(update_fields=['is_active', 'name', 'updated_at'])
+        self.save(update_fields=['is_active','is_deleted', 'name', 'updated_at'])
 
+    def unpublish(self):
+        """Set the product as inactive without deleting it."""
+        self.is_active = False
+        self.name = f"{self.name} (unpublished)"
+        self.save(update_fields=['is_active', 'updated_at'])
 
+    def publish(self):
+        """Set the product as active."""
+        self.is_active = True
+        self.name = self.name.replace(" (unpublished)", "").replace(" (deleted)", "")
+        self.save(update_fields=['is_active', 'updated_at'])
 
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
+
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -48,16 +66,23 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, related_name='images')
     url = models.CharField(max_length=1024)
-    is_primary = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'Product Image'
+        verbose_name_plural = 'Product Images'
 
     def __str__(self):
         return f"Image for {self.product.name}" if self.product else "Image without product"
+
+
