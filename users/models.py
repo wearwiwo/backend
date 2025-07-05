@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def default_address(self):
-        queryset = self.addresses.all().values_list('owner__id', flat=True)
+        queryset = self.addresses.filter(is_default=True).first()
         return queryset
 
     class Meta:
@@ -81,6 +81,7 @@ class Address(models.Model):
 
         # Unset any existing default address for the user
         Address.objects.filter(user=self.user, is_default=True).update(is_default=False)
+
         # Set this address as the default
         self.is_default = True
         self.save()
