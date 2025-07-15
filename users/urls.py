@@ -1,7 +1,7 @@
-from django.urls import path
+from rest_framework.routers import SimpleRouter
 
-from . import views
+from .views import AddressViewSet, UserViewSet
 
-urlpatterns = [
-    path('get_all_users',  views.get_all_users, name='get_all_users'),
-]
+user_router = SimpleRouter()
+user_router.register("users", UserViewSet, basename="users")
+user_router.register("address", AddressViewSet, basename="address")

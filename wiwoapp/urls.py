@@ -1,30 +1,9 @@
-"""
-URL configuration for wiwoapp project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-
-Examples
---------
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
 from django.contrib import admin
 from django.urls import include, path
 
-v1_api_prefix = 'api/v1'
+from wiwoapp.routers import v1_router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(f'{v1_api_prefix}/users/', include('users.urls')),
-    # path(f'{v1_api_prefix}/products/', include('products.urls')),
-    # path(f'{v1_api_prefix}/orders/', include('orders.urls')),
+    path('api/v1/', include((v1_router.urls, 'api-v1'), namespace='v1')),
 ]

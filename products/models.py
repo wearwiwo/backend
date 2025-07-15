@@ -43,6 +43,11 @@ class Product(models.Model):
         self.name = self.name.replace(" (unpublished)", "").replace(" (deleted)", "")
         self.save(update_fields=['is_active', 'updated_at'])
 
+    @property
+    def in_stock(self):
+        """Check if the product is in stock."""
+        return self.stock > 0
+
     def __str__(self):
         return self.name
 

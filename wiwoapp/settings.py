@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Added by Festus Iyere
+    'django_extensions',
     'rest_framework',
     'users',
     'products',
