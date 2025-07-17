@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils.text import slugify
 
@@ -10,7 +12,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    id = models.BigAutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     default_image = models.ForeignKey(
@@ -61,6 +63,7 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     products = models.ManyToManyField(Product, related_name='categories')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     def save(self, *args, **kwargs):
         if not self.slug:  # Generate slug only if it's not already set
@@ -81,6 +84,7 @@ class ProductImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     product = models.ManyToManyField(Product, related_name='images')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     class Meta:
         ordering = ['-created_at']

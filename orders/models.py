@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 from products.models import Product
@@ -6,6 +8,7 @@ from wiwoapp.utils import generate_order_id
 
 
 class Order(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order_id = models.CharField(max_length=10, unique=True, default=generate_order_id)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='orders', null=True,  blank=True)
     address = models.ForeignKey(Address, on_delete=models.DO_NOTHING, related_name='orders')
@@ -44,6 +47,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     order = models.ForeignKey(Order, on_delete=models.DO_NOTHING, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, related_name='items')
     quantity = models.PositiveIntegerField()
