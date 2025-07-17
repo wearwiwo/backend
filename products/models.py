@@ -15,8 +15,6 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=True)
     default_image = models.CharField(max_length=1024, null=True, blank=True)
-    images = models.ManyToManyField('ProductImage', blank=True)
-    categories = models.ManyToManyField('Category', blank=True)
 
 
     def save(self, *args, **kwargs):
@@ -61,6 +59,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    product = models.ManyToManyField(Product)
 
 
     def save(self, *args, **kwargs):
@@ -81,6 +80,7 @@ class ProductImage(models.Model):
     url = models.CharField(max_length=1024)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    product = models.ManyToManyField(Product, blank=True)
 
     class Meta:
         ordering = ['-created_at']
