@@ -32,6 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     images = ProductImageSerializer(many=True, read_only=True)
     categories = CategorySerializer(many=True, read_only=True)
+    default_image = ProductImageSerializer(read_only=True)
 
     class Meta:
         model = Product
